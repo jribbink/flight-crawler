@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import csv
 
 import yaml
 from flight_api import Departure, get_departures
@@ -52,6 +53,20 @@ for a in airports:
 
 with open("output.json", "w+") as f:
   json.dump([d.__dict__ for d in departures], f)
+
+
+
+header = ['origin', 'destination', 'departure_timestamp_utc']
+
+with open('output.csv', 'w+') as f:
+    writer = csv.writer(f)
+
+    # write the header
+    writer.writerow(header)
+
+    # write the data
+    for d in departures:
+      writer.writerow([d.origin, d.destination, d.time])
 
 
 print("\n".join([str([d.time, d.origin, d.destination]) for d in departures]))
